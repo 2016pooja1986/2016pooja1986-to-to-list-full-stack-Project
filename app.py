@@ -60,7 +60,7 @@ init_db()
 
 @app.route('/')
 def home():
-    return redirect(url_for('login'))
+    return redirect(url_for('templates/login'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -94,7 +94,7 @@ def register():
             if user:
                 session['user_id'] = user[0]
                 session['email'] = user[1]
-            return render_template('index.html')
+            return render_template('templates/index.html')
         except sqlite3.IntegrityError:
             flash("Username or Email already exists!", "danger")
         conn.close()
@@ -118,14 +118,14 @@ def login():
             return redirect(url_for('index'))
         else:
             flash("Invalid credentials! Please register.", "danger")
-            return redirect(url_for('register'))
+            return redirect(url_for('templates/register'))
     return render_template('templates/login.html')
 
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
     session.pop('email', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('templates/login'))
 
 @app.route('/index')
 def index():
@@ -151,7 +151,7 @@ def add_task():
     c.execute("INSERT INTO tasks (user_id, task) VALUES (?, ?)", (session['user_id'], task_name))
     conn.commit()
     conn.close()
-    return redirect(url_for('index'))
+    return redirect(url_for('templates/index.html'))
 
 @app.route('/delete/<int:task_id>')
 def delete_task(task_id):
