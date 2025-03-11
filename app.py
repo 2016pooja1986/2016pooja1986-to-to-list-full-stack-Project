@@ -119,7 +119,7 @@ def login():
         else:
             flash("Invalid credentials! Please register.", "danger")
             return redirect(url_for('register'))
-    return render_template('login.html')
+    return render_template('templates/login.html')
 
 @app.route('/logout')
 def logout():
