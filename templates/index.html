@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Welcome to Your To-Do List</h2>
+
+    <form action="/add" method="POST">
+        <input type="text" name="task_name" placeholder="Enter a task..." required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <div class="task-list">
+        {% for task in to_do_lst %}
+        <div class="task-item {% if task[2] == 'Completed' %}completed{% endif %}">
+        <div>
+            <span>{{ task[1] }}</span>
+            <span>{{ task[2] }}</span>
+            
+                <a href="/update_status/{{ task[0] }}" class="btn">Mark Completed</a>
+                <a href="/delete/{{ task[0] }}" class="btn-delete">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <br>
+    <br>
+    <div>
+        <button onclick="printList()" class="btn-print">Print To-Do List</button>
+        <form action="/send_email" method="POST">
+            <button type="submit" class="btn-email">Send to Email</button>
+        </form>
+    </div>
+    
+
+    <a href="/logout" class="btn-logout">Logout</a>
+</div>
+
+<script>
+function printList() {
+    window.print();
+}
+</script>
+
+</body>
+</html>
